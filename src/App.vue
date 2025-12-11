@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
+import test from './components/test.vue'
 </script>
 
 <template>
@@ -12,9 +13,10 @@ import TheWelcome from './components/TheWelcome.vue'
     </div>
   </header>
 
-  <main>
+  <!-- <main>
     <TheWelcome />
-  </main>
+  </main> -->
+  <test />
 </template>
 
 <style scoped>

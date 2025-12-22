@@ -6,6 +6,10 @@ export interface PasswordItem {
     remark: string;
     updatedAt: number;
 }
+export interface AuthResponse {
+    token: string;
+    username: string;
+}
 export interface ApiResponse<T> {
     success: boolean;
     data?: T;

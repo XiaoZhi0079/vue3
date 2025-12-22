@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted } from 'vue'
 import LoginForm from './components/LoginForm.vue'
 import PasswordManager from './components/PasswordManager.vue'
 
-const authKey = ref<string>('')
+const authKey = ref('')
 
 onMounted(() => {
   const savedToken = localStorage.getItem('pm_token')
@@ -12,7 +12,7 @@ onMounted(() => {
   }
 })
 
-const handleLogin = (key: string) => {
+const handleLogin = (key) => {
   authKey.value = key
   localStorage.setItem('pm_token', key)
 }

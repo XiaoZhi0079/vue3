@@ -1,12 +1,20 @@
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import LoginForm from './components/LoginForm.vue';
 import PasswordManager from './components/PasswordManager.vue';
 const authKey = ref('');
+onMounted(() => {
+    const savedToken = localStorage.getItem('pm_token');
+    if (savedToken) {
+        authKey.value = savedToken;
+    }
+});
 const handleLogin = (key) => {
     authKey.value = key;
+    localStorage.setItem('pm_token', key);
 };
 const handleLogout = () => {
     authKey.value = '';
+    localStorage.removeItem('pm_token');
 };
 const __VLS_ctx = {
     ...{},
@@ -38,11 +46,26 @@ if (!__VLS_ctx.authKey) {
     var __VLS_3;
 }
 else {
-    __VLS_asFunctionalElement(__VLS_intrinsics.div, __VLS_intrinsics.div)({});
     __VLS_asFunctionalElement(__VLS_intrinsics.div, __VLS_intrinsics.div)({
+        ...{ class: "main-layout" },
+    });
+    /** @type {__VLS_StyleScopedClasses['main-layout']} */ ;
+    __VLS_asFunctionalElement(__VLS_intrinsics.header, __VLS_intrinsics.header)({
         ...{ class: "top-bar" },
     });
     /** @type {__VLS_StyleScopedClasses['top-bar']} */ ;
+    __VLS_asFunctionalElement(__VLS_intrinsics.div, __VLS_intrinsics.div)({
+        ...{ class: "logo-area" },
+    });
+    /** @type {__VLS_StyleScopedClasses['logo-area']} */ ;
+    __VLS_asFunctionalElement(__VLS_intrinsics.div, __VLS_intrinsics.div)({
+        ...{ class: "logo-icon" },
+    });
+    /** @type {__VLS_StyleScopedClasses['logo-icon']} */ ;
+    __VLS_asFunctionalElement(__VLS_intrinsics.div, __VLS_intrinsics.div)({
+        ...{ class: "logo-text" },
+    });
+    /** @type {__VLS_StyleScopedClasses['logo-text']} */ ;
     const __VLS_7 = {}.ElButton;
     /** @type {[typeof ___VLS_components.ElButton, typeof ___VLS_components.elButton, typeof ___VLS_components.ElButton, typeof ___VLS_components.elButton, ]} */ ;
     // @ts-ignore
@@ -50,13 +73,17 @@ else {
     // @ts-ignore
     const __VLS_8 = __VLS_asFunctionalComponent(__VLS_7, new __VLS_7({
         ...{ 'onClick': {} },
-        type: "info",
-        link: true,
+        type: "danger",
+        plain: true,
+        round: true,
+        size: "small",
     }));
     const __VLS_9 = __VLS_8({
         ...{ 'onClick': {} },
-        type: "info",
-        link: true,
+        type: "danger",
+        plain: true,
+        round: true,
+        size: "small",
     }, ...__VLS_functionalComponentArgsRest(__VLS_8));
     let __VLS_12;
     const __VLS_13 = ({ click: {} },
@@ -66,6 +93,10 @@ else {
     [handleLogout,];
     var __VLS_10;
     var __VLS_11;
+    __VLS_asFunctionalElement(__VLS_intrinsics.main, __VLS_intrinsics.main)({
+        ...{ class: "content-area" },
+    });
+    /** @type {__VLS_StyleScopedClasses['content-area']} */ ;
     /** @type {[typeof PasswordManager, ]} */ ;
     // @ts-ignore
     PasswordManager;

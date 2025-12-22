@@ -1,33 +1,31 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import type { FormInstance, FormRules } from 'element-plus'
 import { Plus, Edit, Delete, CopyDocument, Refresh, Search, View, Hide } from '@element-plus/icons-vue'
 import axios from 'axios'
-import type { PasswordItem, ApiResponse } from '../types'
 
-const props = defineProps<{
-  authKey: string
-}>()
+const props = defineProps({
+  authKey: String
+})
 
-const items = ref<PasswordItem[]>([])
+const items = ref([])
 const loading = ref(false)
 const dialogVisible = ref(false)
-const dialogType = ref<'add' | 'edit'>('add')
-const formRef = ref<FormInstance>()
+const dialogType = ref('add')
+const formRef = ref()
 const searchQuery = ref('')
-const visiblePasswords = reactive<Record<string, boolean>>({})
+const visiblePasswords = reactive({})
 
-const form = reactive<Omit<PasswordItem, 'id' | 'updatedAt'>>({
+const form = reactive({
   platform: '',
   account: '',
   password: '',
   remark: ''
 })
 
-const currentId = ref<string>('')
+const currentId = ref('')
 
-const rules = reactive<FormRules>({
+const rules = reactive({
   platform: [{ required: true, message: 'Please input platform name', trigger: 'blur' }],
   account: [{ required: true, message: 'Please input account', trigger: 'blur' }],
   password: [{ required: true, message: 'Please input password', trigger: 'blur' }]
@@ -43,13 +41,13 @@ const api = axios.create({
 const fetchData = async () => {
   loading.value = true
   try {
-    const res = await api.get<ApiResponse<PasswordItem[]>>('/passwords')
+    const res = await api.get('/passwords')
     if (res.data.success && res.data.data) {
       items.value = res.data.data
     } else {
       ElMessage.error(res.data.message || 'Failed to fetch data')
     }
-  } catch (error: any) {
+  } catch (error) {
     if (error.response?.status === 401) {
       ElMessage.error('Session expired, please login again')
       // Ideally emit logout event
@@ -71,7 +69,7 @@ const filteredItems = computed(() => {
   )
 })
 
-const togglePasswordVisibility = (id: string) => {
+const togglePasswordVisibility = (id) => {
   visiblePasswords[id] = !visiblePasswords[id]
 }
 
@@ -85,7 +83,7 @@ const handleAdd = () => {
   dialogVisible.value = true
 }
 
-const handleEdit = (row: PasswordItem) => {
+const handleEdit = (row) => {
   dialogType.value = 'edit'
   currentId.value = row.id
   form.platform = row.platform
@@ -95,7 +93,7 @@ const handleEdit = (row: PasswordItem) => {
   dialogVisible.value = true
 }
 
-const handleDelete = (row: PasswordItem) => {
+const handleDelete = (row) => {
   ElMessageBox.confirm(
     'Are you sure you want to delete this item?',
     'Warning',
@@ -119,7 +117,7 @@ const handleDelete = (row: PasswordItem) => {
   })
 }
 
-const submitForm = async (formEl: FormInstance | undefined) => {
+const submitForm = async (formEl) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     if (valid) {
@@ -142,7 +140,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   })
 }
 
-const copyToClipboard = (text: string) => {
+const copyToClipboard = (text) => {
   navigator.clipboard.writeText(text).then(() => {
     ElMessage.success('Password copied to clipboard')
   }).catch(() => {

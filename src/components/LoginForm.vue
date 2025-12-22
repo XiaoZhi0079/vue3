@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from 'vue'
 import { Lock, User } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
@@ -40,7 +40,7 @@ const handleSubmit = async () => {
     } else {
       ElMessage.error(res.data.message || 'Operation failed')
     }
-  } catch (error: any) {
+  } catch (error) {
     ElMessage.error(error.response?.data?.message || 'Network error')
   } finally {
     loading.value = false
